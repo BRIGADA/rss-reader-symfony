@@ -1,0 +1,150 @@
+Channel:
+  tableName: channels
+  actAs:
+    Timestampable: ~
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    url:
+      type: text
+      notnull: true
+    title:
+      type: text
+      notnull: true
+    link:
+      type: text
+      notnull: true
+    description:
+      type: text
+      notnull: true
+    language: 
+      type: text
+    copyright:
+      type: text
+    editor:
+      type: text
+    webmaster:
+      type: text
+    ttl:
+      type: integer
+    logo_url:
+      type: text
+    logo_width:
+      type: integer
+    logo_height:
+      type: integer
+      
+  relations:    
+    rel_categories:
+      class: Category
+      refClass: ChannelCategory
+      local: channel_id
+      foreign: category_id
+      alias: categories
+      foreignAlias: channels
+
+ChannelCategory:
+  tableName: channels_categories
+  columns:
+    channel_id:
+      type: integer
+      primary: true
+    category_id:
+      type: integer
+      primary: true
+  relations:
+    rel_channel:
+      class: Channel
+      local: channel_id
+      foreign: id
+      onUpdate: CASCADE
+      onDelete: CASCADE
+    rel_channel:
+      class: Category
+      local: category_id
+      foreign: id
+      onUpdate: CASCADE
+      onDelete: CASCADE
+      
+Category:
+  tableName: categories
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    value:
+      type: text
+      notnull: true
+    
+    
+Item:
+  tableName: items
+  actAs:
+    Timestampable:
+      updated:
+        disabled: true
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    channel_id:
+      type: integer
+      notnull: true
+    title:
+      type: text
+    guid:
+      type: text
+    link:
+      type: text
+    description:
+      type: text
+    author:
+      type: text
+    pubdate:
+      type: datetime
+  relations:
+    rel_channel:
+      class: Channel
+      local: channel_id
+      foreign: id
+      alias: channel
+      foreignAlias: items
+      onUpdate: CASCADE
+      onDelete: CASCADE
+      orderBy: created_at DESC
+      
+    rel_categories:
+      class: Category
+      refClass: ItemCategory
+      local: item_id
+      foreign: category_id
+      alias: categories
+      foreignAlias: items
+
+ItemCategory:
+  tableName: items_categories
+  columns:
+    item_id:
+      type: integer
+      primary: true
+    category_id:
+      type: integer
+      primary: true
+  relations:
+    rel_channel:
+      class: Item
+      local: item_id
+      foreign: id
+      onUpdate: CASCADE
+      onDelete: CASCADE
+    rel_channel:
+      class: Category
+      local: category_id
+      foreign: id
+      onUpdate: CASCADE
+      onDelete: CASCADE
+  
