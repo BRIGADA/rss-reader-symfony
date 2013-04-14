@@ -19,7 +19,7 @@ class Channel extends BaseChannel
 			->where('channel_id = ?', $this->id)
 			->limit(10)
 			->offset($block * 10)
-			->orderBy('pubdate DESC')
+			->orderBy('pubdate DESC, id DESC')
 			->execute();
 	}
 }

@@ -11,10 +11,10 @@
 	<div class="span12">
 		<div class="well2">
 			<div class="muted pull-right">
-				<small><?php echo $item->pubdate?> </small>
+				<small><?php echo $item->pubdate ? $item->pubdate : $item->created_at ?></small>
 			</div>
 			<h3>
-				<a href="<?php echo url_for($item->link)?>" target="_blank"><?php echo $item->title ?> </a>
+				<a href="<?php echo url_for($item->link)?>" target="_blank"><?php if(empty($item->title)) : ?>(название неизвестно)<?php else : ?><?php echo $item->title ?><?php endif ?></a>
 			</h3>
 			<div>
 				<?php echo html_entity_decode($item->description) ?>

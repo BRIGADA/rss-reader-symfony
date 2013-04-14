@@ -64,10 +64,26 @@ define('DEFAULT_TARGET_CHARSET', 'UTF-8');
 define('DEFAULT_BR_TEXT', "\r\n");
 define('DEFAULT_SPAN_TEXT', " ");
 define('MAX_FILE_SIZE', 600000);
+
 // helper functions
 // -----------------------------------------------------------------------------
 // get html dom from file
 // $maxlen is defined in the code as PHP_STREAM_COPY_ALL which is defined as -1.
+/**
+ * 
+ * @param string $url
+ * @param string $use_include_path
+ * @param string $context
+ * @param unknown $offset
+ * @param unknown $maxLen
+ * @param string $lowercase
+ * @param string $forceTagsClosed
+ * @param string $target_charset
+ * @param string $stripRN
+ * @param string $defaultBRText
+ * @param string $defaultSpanText
+ * @return boolean|simple_html_dom
+ */
 function file_get_html($url, $use_include_path = false, $context=null, $offset = -1, $maxLen=-1, $lowercase = true, $forceTagsClosed=true, $target_charset = DEFAULT_TARGET_CHARSET, $stripRN=true, $defaultBRText=DEFAULT_BR_TEXT, $defaultSpanText=DEFAULT_SPAN_TEXT)
 {
 	// We DO force the tags to be terminated.
@@ -745,7 +761,15 @@ class simple_html_dom_node
 		}
 		$this->attr[$name] = $value;
 	}
-
+	
+	function quoteAll($quote_type = HDOM_QUOTE_DOUBLE)
+	{
+		foreach ($this->_[HDOM_INFO_QUOTE] as &$v) {
+			$v = $quote_type;
+		}
+		return $this;
+	}
+	
 	function __isset($name) {
 		switch ($name) {
 			case 'outertext': return true;

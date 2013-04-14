@@ -19,7 +19,7 @@ class channelActions extends sfActions
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->channel = Doctrine_Core::getTable('Channel')->find(array($request->getParameter('id')));
+    $this->channel = Doctrine_Core::getTable('Channel')->find($request->getParameter('id'));
     $this->forward404Unless($this->channel);
   }
 
